@@ -66,10 +66,28 @@ def load_dictionary(filename):
     with open(filename,'r') as f:
         return set(get_words(f.read()))
 
-with open('mobydick.txt','r') as f:
-    word_counts = train(get_words(f.read()))
-    print(correct('righ',word_counts))
-
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
 DICTIONARY = load_dictionary('wordsEn.txt')
+
+
+def test():
+    with open('mobydick.txt', 'r') as f:
+        word_counts = train(get_words(f.read()))
+
+    corrects = ['right', 'acceptable', 'believe', 'accommodate', 'acknowledge', 'commitment', 'consensus', 'embarrass',
+                'indispensable']
+    incorrects = ['righ', 'acceptabel', 'beleive', 'acomodate', 'acknowlege', 'comitment', 'concensus', 'embarras',
+                  'indispensible']
+    error = 0
+    for a, b in zip(corrects, incorrects):
+        guess = correct(b, word_counts)
+        if guess != a:
+            print(a, guess)
+            error += 1
+
+    print("Error: %0.05f" % (error/len(corrects)))
+
+if __name__ == '__main__':
+    test()
+
 
